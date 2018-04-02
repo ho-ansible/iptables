@@ -6,6 +6,7 @@
     chain: INPUT
     protocol: icmp
     jump: ACCEPT
+  notify: save iptables
 
 # -A INPUT -p icmpv6 -j ACCEPT
 - name: iptables | IPv6 ping
@@ -14,6 +15,7 @@
     chain: INPUT
     protocol: icmpv6
     jump: ACCEPT
+  notify: save iptables
 
 # -A FORWARD -p icmpv6 -j ACCEPT
 - name: iptables | IPv6 ping FORWARD
@@ -22,4 +24,5 @@
     chain: FORWARD
     protocol: icmpv6
     jump: ACCEPT
+  notify: save iptables
 

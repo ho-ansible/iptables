@@ -7,6 +7,7 @@
     chain : "{{ item.chain  | d('INPUT' , true) }}"
     policy: "{{ item.policy | d('ACCEPT', true) }}"
   with_items: "{{ iptables_policies }}"
+  notify: save iptables
 
 - name: iptables | IPv6 policies
   iptables:
@@ -15,6 +16,7 @@
     chain : "{{ item.chain  | d('INPUT' , true) }}"
     policy: "{{ item.policy | d('ACCEPT', true) }}"
   with_items: "{{ iptables_policies }}"
+  notify: save iptables
 
 # -A INPUT -i lo -j ACCEPT
 - name: iptables | IPv4 loopback
@@ -22,6 +24,7 @@
     chain: INPUT
     in_interface: lo
     jump: ACCEPT
+  notify: save iptables
 
 # -A INPUT -i lo -j ACCEPT
 - name: iptables | IPv6 loopback
@@ -30,6 +33,7 @@
     chain: INPUT
     in_interface: lo
     jump: ACCEPT
+  notify: save iptables
 
 # -A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
 - name: iptables | IPv4 block lo subnet
@@ -38,6 +42,7 @@
     in_interface: "!lo"
     destination: 127.0.0.0/8
     jump: REJECT
+  notify: save iptables
 
 # -A INPUT -s fe80::/10 -j ACCEPT
 - name: iptables | IPv6 link-local
@@ -46,6 +51,7 @@
     chain: INPUT
     source: "fe80::/10"
     jump: ACCEPT
+  notify: save iptables
 
 # -A INPUT -d ff00::/8  -j ACCEPT
 - name: iptables | IPv6 multicast
@@ -54,6 +60,7 @@
     chain: INPUT
     destination: "ff00::/8"
     jump: ACCEPT
+  notify: save iptables
 
 # -A INPUT -m state --state INVALID -j DROP
 - name: iptables | IPv4 invalid
@@ -61,6 +68,7 @@
     chain: INPUT
     ctstate: INVALID
     jump: DROP
+  notify: save iptables
 
 # -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 - name: iptables | IPv4 conntrack
@@ -68,6 +76,7 @@
     chain: INPUT
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT
+  notify: save iptables
 
 # -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 - name: iptables | IPv6 conntrack
@@ -76,4 +85,5 @@
     chain: INPUT
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT
+  notify: save iptables
 

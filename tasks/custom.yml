@@ -6,6 +6,7 @@
     destination_port: "{{ item }}"
     jump: ACCEPT
   with_items: iptables_ports
+  notify: save iptables
 
 - name: iptables | IPv6 custom ports
   iptables:
@@ -14,3 +15,4 @@
     destination_port: "{{ item }}"
     jump: ACCEPT
   with_items: iptables_ports
+  notify: save iptables

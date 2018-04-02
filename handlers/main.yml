@@ -3,3 +3,6 @@
   service:
     name: netfilter-persistent
     state: restarted
+
+- name: save iptables
+  command: netfilter-persistent save
