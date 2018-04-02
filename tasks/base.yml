@@ -1,0 +1,79 @@
+---
+# Basic firewall rules
+
+- name: iptables | IPv4 policies
+  iptables:
+    table : "{{ item.table  | d('filter', true) }}"
+    chain : "{{ item.chain  | d('INPUT' , true) }}"
+    policy: "{{ item.policy | d('ACCEPT', true) }}"
+  with_items: "{{ iptables_policies }}"
+
+- name: iptables | IPv6 policies
+  iptables:
+    ip_version: 6
+    table : "{{ item.table  | d('filter', true) }}"
+    chain : "{{ item.chain  | d('INPUT' , true) }}"
+    policy: "{{ item.policy | d('ACCEPT', true) }}"
+  with_items: "{{ iptables_policies }}"
+
+# -A INPUT -i lo -j ACCEPT
+- name: iptables | IPv4 loopback
+  iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+
+# -A INPUT -i lo -j ACCEPT
+- name: iptables | IPv6 loopback
+  iptables:
+    ip_version: 6
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+
+# -A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
+- name: iptables | IPv4 block lo subnet
+  iptables:
+    chain: INPUT
+    in_interface: "!lo"
+    destination: 127.0.0.0/8
+    jump: REJECT
+
+# -A INPUT -s fe80::/10 -j ACCEPT
+- name: iptables | IPv6 link-local
+  iptables:
+    ip_version: 6
+    chain: INPUT
+    source: "fe80::/10"
+    jump: ACCEPT
+
+# -A INPUT -d ff00::/8  -j ACCEPT
+- name: iptables | IPv6 multicast
+  iptables:
+    ip_version: 6
+    chain: INPUT
+    destination: "ff00::/8"
+    jump: ACCEPT
+
+# -A INPUT -m state --state INVALID -j DROP
+- name: iptables | IPv4 invalid
+  iptables:
+    chain: INPUT
+    ctstate: INVALID
+    jump: DROP
+
+# -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+- name: iptables | IPv4 conntrack
+  iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+
+# -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+- name: iptables | IPv6 conntrack
+  iptables:
+    ip_version: 6
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+
