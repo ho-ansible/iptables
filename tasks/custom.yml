@@ -1,18 +1,12 @@
 ---
 
-- name: iptables | IPv4 custom ports
+- name: iptables | custom ports
   iptables:
+    ip_version: "{{ item[0] }}"
     chain: INPUT
-    destination_port: "{{ item }}"
+    destination_port: "{{ item[1] }}"
     jump: ACCEPT
-  with_items: iptables_ports
-  notify: save iptables
-
-- name: iptables | IPv6 custom ports
-  iptables:
-    chain: INPUT
-    ip_version: ipv6
-    destination_port: "{{ item }}"
-    jump: ACCEPT
-  with_items: iptables_ports
+  with_nested:
+    - [ ipv4, ipv6 ]
+    - "{{ iptables_ports }}"
   notify: save iptables
