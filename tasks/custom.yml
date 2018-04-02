@@ -2,13 +2,15 @@
 
 - name: iptables | IPv4 custom ports
   iptables:
+    chain: INPUT
     destination_port: "{{ item }}"
     jump: ACCEPT
   with_items: iptables_ports
 
 - name: iptables | IPv6 custom ports
   iptables:
-    ip_version: 6
+    chain: INPUT
+    ip_version: ipv6
     destination_port: "{{ item }}"
     jump: ACCEPT
   with_items: iptables_ports

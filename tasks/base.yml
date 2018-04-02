@@ -10,7 +10,7 @@
 
 - name: iptables | IPv6 policies
   iptables:
-    ip_version: 6
+    ip_version: ipv6
     table : "{{ item.table  | d('filter', true) }}"
     chain : "{{ item.chain  | d('INPUT' , true) }}"
     policy: "{{ item.policy | d('ACCEPT', true) }}"
@@ -26,7 +26,7 @@
 # -A INPUT -i lo -j ACCEPT
 - name: iptables | IPv6 loopback
   iptables:
-    ip_version: 6
+    ip_version: ipv6
     chain: INPUT
     in_interface: lo
     jump: ACCEPT
@@ -42,7 +42,7 @@
 # -A INPUT -s fe80::/10 -j ACCEPT
 - name: iptables | IPv6 link-local
   iptables:
-    ip_version: 6
+    ip_version: ipv6
     chain: INPUT
     source: "fe80::/10"
     jump: ACCEPT
@@ -50,7 +50,7 @@
 # -A INPUT -d ff00::/8  -j ACCEPT
 - name: iptables | IPv6 multicast
   iptables:
-    ip_version: 6
+    ip_version: ipv6
     chain: INPUT
     destination: "ff00::/8"
     jump: ACCEPT
@@ -72,7 +72,7 @@
 # -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 - name: iptables | IPv6 conntrack
   iptables:
-    ip_version: 6
+    ip_version: ipv6
     chain: INPUT
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT

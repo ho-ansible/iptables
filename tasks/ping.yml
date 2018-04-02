@@ -3,20 +3,22 @@
 # -A INPUT -p icmp -j ACCEPT
 - name: iptables | IPv4 ping
   iptables:
+    chain: INPUT
     protocol: icmp
     jump: ACCEPT
 
 # -A INPUT -p icmpv6 -j ACCEPT
 - name: iptables | IPv6 ping
   iptables:
-    ip_version: 6
+    ip_version: ipv6
+    chain: INPUT
     protocol: icmpv6
     jump: ACCEPT
 
 # -A FORWARD -p icmpv6 -j ACCEPT
 - name: iptables | IPv6 ping FORWARD
   iptables:
-    ip_version: 6
+    ip_version: ipv6
     chain: FORWARD
     protocol: icmpv6
     jump: ACCEPT
