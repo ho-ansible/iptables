@@ -1,7 +1,4 @@
 ---
-ssh_whitelist: []
-ssh_whitelist_v6: []
-
 iptables_policies:
   - { table: filter, chain: INPUT,   policy: DROP   }
   - { table: filter, chain: FORWARD, policy: DROP   }
