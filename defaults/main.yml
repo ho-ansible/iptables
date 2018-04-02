@@ -7,4 +7,5 @@ iptables_policies:
   - { table: filter, chain: FORWARD, policy: DROP   }
   - { table: filter, chain: OUTPUT,  policy: ACCEPT }
 
+iptables_ports: []
 iptables_enable_ping: true
