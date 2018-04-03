@@ -9,4 +9,4 @@
   with_nested:
     - [ ipv4, ipv6 ]
     - "{{ iptables_ports }}"
-  notify: save iptables
+  notify: iptables

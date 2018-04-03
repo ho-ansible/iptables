@@ -1,17 +1,6 @@
 ---
 # Basic firewall rules
 
-- name: iptables | policies
-  iptables:
-    ip_version: "{{ item[0] }}"
-    table : "{{ item[1].table  | d('filter', true) }}"
-    chain : "{{ item[1].chain  | d('INPUT' , true) }}"
-    policy: "{{ item[1].policy | d('ACCEPT', true) }}"
-  with_nested:
-    - [ ipv4, ipv6 ]
-    - "{{ iptables_policies }}"
-  notify: save iptables
-
 # -A INPUT -i lo -j ACCEPT
 - name: iptables | loopback
   iptables:
@@ -20,7 +9,7 @@
     in_interface: lo
     jump: ACCEPT
   with_items: [ ipv4, ipv6 ]
-  notify: save iptables
+  notify: iptables
 
 # -A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
 - name: iptables | IPv4 block lo subnet
@@ -29,7 +18,7 @@
     in_interface: "!lo"
     destination: 127.0.0.0/8
     jump: REJECT
-  notify: save iptables
+  notify: iptables
 
 # -A INPUT -s fe80::/10 -j ACCEPT
 - name: iptables | IPv6 link-local
@@ -38,7 +27,7 @@
     chain: INPUT
     source: "fe80::/10"
     jump: ACCEPT
-  notify: save iptables
+  notify: iptables
 
 # -A INPUT -d ff00::/8  -j ACCEPT
 - name: iptables | IPv6 multicast
@@ -47,7 +36,7 @@
     chain: INPUT
     destination: "ff00::/8"
     jump: ACCEPT
-  notify: save iptables
+  notify: iptables
 
 # -A INPUT -m state --state INVALID -j DROP
 - name: iptables | IPv4 invalid
@@ -55,7 +44,7 @@
     chain: INPUT
     ctstate: INVALID
     jump: DROP
-  notify: save iptables
+  notify: iptables
 
 # -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 - name: iptables | conntrack
@@ -65,5 +54,5 @@
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT
   with_items: [ ipv4, ipv6 ]
-  notify: save iptables
+  notify: iptables
 
