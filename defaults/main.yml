@@ -1,8 +1,8 @@
 ---
 iptables_policies:
-  - { table: filter, chain: INPUT,   policy: DROP   }
-  - { table: filter, chain: FORWARD, policy: DROP   }
-  - { table: filter, chain: OUTPUT,  policy: ACCEPT }
+  - { chain: INPUT,   policy: DROP   }
+  - { chain: FORWARD, policy: DROP   }
+  - { chain: OUTPUT,  policy: ACCEPT }
 
 iptables_ports: []
 iptables_enable_ping: true
