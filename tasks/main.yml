@@ -2,7 +2,5 @@
 
 - import_tasks: base.yml
 - import_tasks: custom.yml
-- include_tasks: ping.yml
-  when: iptables_enable_ping
-
+- import_tasks: ping.yml
 - import_tasks: persist.yml

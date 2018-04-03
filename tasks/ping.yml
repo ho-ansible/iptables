@@ -6,6 +6,7 @@
     chain: INPUT
     protocol: icmp
     jump: ACCEPT
+  when: iptables_enable_ping
   notify: iptables
 
 # -A INPUT -p icmpv6 -j ACCEPT
@@ -15,6 +16,7 @@
     chain: INPUT
     protocol: icmpv6
     jump: ACCEPT
+  when: iptables_enable_ping
   notify: iptables
 
 # -A FORWARD -p icmpv6 -j ACCEPT
@@ -24,5 +26,6 @@
     chain: FORWARD
     protocol: icmpv6
     jump: ACCEPT
+  when: iptables_enable_ping
   notify: iptables
 
