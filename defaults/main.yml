@@ -1,7 +1,7 @@
 ---
 iptables_policies:
-  - { chain: INPUT,   policy: DROP   }
-  - { chain: FORWARD, policy: DROP   }
+  - { chain: INPUT,   policy: ACCEPT }
+  - { chain: FORWARD, policy: ACCEPT }
   - { chain: OUTPUT,  policy: ACCEPT }
 
 iptables_ports: []
