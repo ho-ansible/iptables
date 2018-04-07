@@ -1,0 +1,19 @@
+---
+
+- name: iptables-persistent | package
+  tags:
+  - package
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - iptables-persistent
+
+- name: iptables-persistent | service
+  tags:
+  - service
+  service:
+    name: netfilter-persistent
+    state: started
+    enabled: yes
+

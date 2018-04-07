@@ -1,0 +1,12 @@
+---
+
+- name: iptables | custom ports
+  iptables:
+    ip_version: "{{ item[0] }}"
+    chain: INPUT
+    destination_port: "{{ item[1] }}"
+    jump: ACCEPT
+  with_nested:
+    - [ ipv4, ipv6 ]
+    - "{{ iptables_ports }}"
+  notify: iptables

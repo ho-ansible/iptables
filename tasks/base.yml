@@ -1,0 +1,58 @@
+---
+# Basic firewall rules
+
+# -A INPUT -i lo -j ACCEPT
+- name: iptables | loopback
+  iptables:
+    ip_version: "{{ item }}"
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+  with_items: [ ipv4, ipv6 ]
+  notify: iptables
+
+# -A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
+- name: iptables | IPv4 block lo subnet
+  iptables:
+    chain: INPUT
+    in_interface: "!lo"
+    destination: 127.0.0.0/8
+    jump: REJECT
+  notify: iptables
+
+# -A INPUT -s fe80::/10 -j ACCEPT
+- name: iptables | IPv6 link-local
+  iptables:
+    ip_version: ipv6
+    chain: INPUT
+    source: "fe80::/10"
+    jump: ACCEPT
+  notify: iptables
+
+# -A INPUT -d ff00::/8  -j ACCEPT
+- name: iptables | IPv6 multicast
+  iptables:
+    ip_version: ipv6
+    chain: INPUT
+    destination: "ff00::/8"
+    jump: ACCEPT
+  notify: iptables
+
+# -A INPUT -m state --state INVALID -j DROP
+- name: iptables | IPv4 invalid
+  iptables:
+    chain: INPUT
+    ctstate: INVALID
+    jump: DROP
+  notify: iptables
+
+# -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+- name: iptables | conntrack
+  iptables:
+    ip_version: "{{ item }}"
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+  with_items: [ ipv4, ipv6 ]
+  notify: iptables
+

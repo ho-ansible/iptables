@@ -1,5 +1,16 @@
 ---
-- name: restart iptables
-  service:
-    name: netfilter-persistent
-    state: restarted
+
+- name: iptables save
+  command: netfilter-persistent save
+
+# Set policy in handler to prevent locking self out
+- name: iptables
+  iptables:
+    ip_version: "{{ item[0] }}"
+    table : "{{ item[1].table  | d('filter', true) }}"
+    chain : "{{ item[1].chain  | d('INPUT' , true) }}"
+    policy: "{{ item[1].policy | d('ACCEPT', true) }}"
+  with_nested:
+    - [ ipv4, ipv6 ]
+    - "{{ iptables_policies }}"
+  notify: iptables save

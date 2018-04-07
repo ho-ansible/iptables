@@ -1,3 +1,8 @@
 ---
-ssh_whitelist: []
-ssh_whitelist_v6: []
+iptables_policies:
+  - { chain: INPUT,   policy: ACCEPT }
+  - { chain: FORWARD, policy: ACCEPT }
+  - { chain: OUTPUT,  policy: ACCEPT }
+
+iptables_ports: []
+iptables_enable_ping: true
