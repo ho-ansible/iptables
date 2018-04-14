@@ -1,6 +1,6 @@
 ---
 
-- name: iptables-persistent | package
+- name: iptables | persist | package
   tags:
   - package
   package:
@@ -9,7 +9,17 @@
   with_items:
     - iptables-persistent
 
-- name: iptables-persistent | service
+- name: iptables | persist | save file
+  tags:
+    - config
+  file:
+    path: "/etc/iptables/rules.{{ item }}"
+    mode: 0640
+  with_items:
+    - v4
+    - v6
+
+- name: iptables | persist | service
   tags:
   - service
   service:

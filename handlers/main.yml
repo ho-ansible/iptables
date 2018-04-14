@@ -1,7 +1,10 @@
 ---
 
 - name: iptables save
-  command: netfilter-persistent save
+  shell: "{{ item.cmd }} > /etc/iptables/{{ item.file }}"
+  with_items:
+    - { cmd: iptables-save,  file: rules.v4 }
+    - { cmd: ip6tables-save, file: rules.v6 }
 
 # Set policy in handler to prevent locking self out
 - name: iptables
