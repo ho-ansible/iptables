@@ -1,0 +1,20 @@
+---
+# Reset firewall: clear rules and allow all traffic
+# TODO: -t nat (not always avail in ipv6?)
+
+- name: iptables | flush | policy ACCEPT
+  iptables:
+    ip_version: "{{ item.0 }}"
+    chain: "{{ item.1 }}"
+    policy: ACCEPT
+  with_nested:
+    - [ ipv4, ipv6 ]
+    - [ INPUT, OUTPUT, FORWARD ]
+
+- name: iptables | flush | clear rules
+  iptables:
+    ip_version: "{{ item }}"
+    flush: yes
+  with_items:
+    - [ ipv4, ipv6 ]
+
