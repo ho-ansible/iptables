@@ -4,9 +4,11 @@
   iptables:
     ip_version: "{{ item[0] }}"
     chain: INPUT
-    destination_port: "{{ item[1] }}"
+    protocol: "{{ item[1] }}"
+    destination_port: "{{ item[2] }}"
     jump: ACCEPT
   with_nested:
     - [ ipv4, ipv6 ]
+    - [ tcp, udp ]
     - "{{ iptables_ports }}"
   notify: iptables
