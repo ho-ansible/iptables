@@ -8,7 +8,7 @@
     - { cmd: ip6tables-save, file: rules.v6 }
 
 # Set policy in handler to prevent locking self out
-- name: iptables policy
+- name: iptables
   iptables:
     ip_version: "{{ item[0] }}"
     table : "{{ item[1].table  | d('filter', true) }}"
@@ -17,11 +17,5 @@
   with_nested:
     - [ ipv4, ipv6 ]
     - "{{ iptables_policies }}"
-
-# Master handler calls sub-handlers
-- name: iptables
-  ping:
   changed_when: true
-  notify:
-    - iptables policy
-    - iptables save
+  notify: iptables save
