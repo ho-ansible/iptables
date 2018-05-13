@@ -1,6 +1,5 @@
 ---
 # Reset firewall: clear rules and allow all traffic
-# TODO: -t nat (not always avail in ipv6?)
 
 - name: iptables | flush | policy ACCEPT
   iptables:
