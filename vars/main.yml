@@ -1,0 +1,2 @@
+---
+iptables_has_ipv6_nat: "{{ ansible_kernel is version_compare('3.7', '>=') }}"

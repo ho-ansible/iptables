@@ -12,8 +12,10 @@
 
 - name: iptables | flush | clear rules
   iptables:
-    ip_version: "{{ item }}"
+    ip_version: "{{ item.0 }}"
+    table: "{{ item.1 }}"
     flush: yes
-  with_items:
+  with_nested:
     - [ ipv4, ipv6 ]
-
+    - [ filter, nat ]
+  when: iptables_has_ipv6_nat or item.0 != "ipv6" or item.1 != "nat"
