@@ -7,8 +7,5 @@
     protocol: "{{ item[1] }}"
     destination_port: "{{ item[2] }}"
     jump: ACCEPT
-  with_nested:
-    - [ ipv4, ipv6 ]
-    - [ tcp, udp ]
-    - "{{ iptables_ports }}"
+  loop: "{{ q('nested', [ 'ipv4', 'ipv6' ], [ 'tcp', 'udp' ], iptables_ports) }}"
   notify: iptables

@@ -8,7 +8,7 @@
     chain: INPUT
     in_interface: lo
     jump: ACCEPT
-  with_items: [ ipv4, ipv6 ]
+  loop: [ ipv4, ipv6 ]
   notify: iptables
 
 # -A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
@@ -53,6 +53,6 @@
     chain: INPUT
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT
-  with_items: [ ipv4, ipv6 ]
+  loop: [ ipv4, ipv6 ]
   notify: iptables
 
