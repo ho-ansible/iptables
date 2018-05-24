@@ -12,9 +12,7 @@
   file:
     path: "/etc/iptables/rules.{{ item }}"
     mode: 0640
-  with_items:
-    - v4
-    - v6
+  loop: [ v4, v6 ]
 
 - name: iptables | persist | service
   tags:
