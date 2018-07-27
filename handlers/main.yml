@@ -3,19 +3,17 @@
 # Write current ruleset to file
 - name: iptables save
   shell: "{{ item.cmd }} > /etc/iptables/{{ item.file }}"
-  with_items:
+  loop:
     - { cmd: iptables-save,  file: rules.v4 }
     - { cmd: ip6tables-save, file: rules.v6 }
 
 # Set policy in handler to prevent locking self out
 - name: iptables
   iptables:
-    ip_version: "{{ item[0] }}"
-    table : "{{ item[1].table  | d('filter', true) }}"
-    chain : "{{ item[1].chain  | d('INPUT' , true) }}"
-    policy: "{{ item[1].policy | d('ACCEPT', true) }}"
-  with_nested:
-    - [ ipv4, ipv6 ]
-    - "{{ iptables_policies }}"
+    ip_version: "{{ item.0 }}"
+    table : "{{ item.1.table  | d('filter', true) }}"
+    chain : "{{ item.1.chain  | d('INPUT' , true) }}"
+    policy: "{{ item.1.policy | d('ACCEPT', true) }}"
+  loop: "{{ [ ipv4, ipv6 ] | product(iptables_policies) | list }}"
   changed_when: true
   notify: iptables save
