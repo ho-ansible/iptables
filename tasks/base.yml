@@ -55,4 +55,5 @@
     jump: ACCEPT
   loop: [ ipv4, ipv6 ]
   notify: iptables
+  ignore_errors: yes
 
