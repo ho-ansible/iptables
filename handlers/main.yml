@@ -14,6 +14,6 @@
     table : "{{ item.1.table  | d('filter', true) }}"
     chain : "{{ item.1.chain  | d('INPUT' , true) }}"
     policy: "{{ item.1.policy | d('ACCEPT', true) }}"
-  loop: "{{ [ ipv4, ipv6 ] | product(iptables_policies) | list }}"
+  loop: "{{ [ 'ipv4', 'ipv6' ] | product(iptables_policies) | list }}"
   changed_when: true
   notify: iptables save
