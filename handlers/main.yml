@@ -2,10 +2,10 @@
 
 # Write current ruleset to file
 - name: iptables save
-  shell: "{{ item.cmd }} > /etc/iptables/{{ item.file }}"
+  shell: "{{ item.cmd }}-save > /etc/iptables/rules.{{ item.ver }}"
   loop:
-    - { cmd: iptables-save,  file: rules.v4 }
-    - { cmd: ip6tables-save, file: rules.v6 }
+    - { cmd: iptables,  file: v4 }
+    - { cmd: ip6tables, file: v6 }
 
 # Set policy in handler to prevent locking self out
 - name: iptables
