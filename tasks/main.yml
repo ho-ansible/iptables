@@ -1,5 +1,17 @@
 ---
 
+- name: iptables | package
+  package:
+    name: iptables
+
+- name: iptables | select legacy
+  alternatives:
+    name: "{{ item }}"
+    path: "/usr/sbin/{{ item }}-legacy"
+  loop:
+    - iptables
+    - ip6tables
+
 - import_tasks: base.yml
 - import_tasks: custom.yml
 - include_tasks: ping.yml
