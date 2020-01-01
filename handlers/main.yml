@@ -4,8 +4,8 @@
 - name: iptables save
   shell: "{{ item.cmd }}-save > /etc/iptables/rules.{{ item.ver }}"
   loop:
-    - { cmd: iptables,  file: v4 }
-    - { cmd: ip6tables, file: v6 }
+    - { cmd: iptables,  ver: v4 }
+    - { cmd: ip6tables, ver: v6 }
 
 # Set policy in handler to prevent locking self out
 - name: iptables
