@@ -16,14 +16,7 @@ Only tested on Debian stable, for now.
 + `iptables`: roles that set iptables rules may notify this handler to have the rules saved in case of reboot.
 
 ## Dependencies
-
-## Example Playbook
-
-```
-- hosts: linux
-  roles:
-    - { role: ho-ansible.iptables }
-```
+None
 
 ## License
 MIT

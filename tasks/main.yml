@@ -9,8 +9,8 @@
     name: "{{ item }}"
     path: "/usr/sbin/{{ item }}-legacy"
   loop:
-    - iptables
-    - ip6tables
+  - iptables
+  - ip6tables
 
 - import_tasks: base.yml
 - import_tasks: custom.yml

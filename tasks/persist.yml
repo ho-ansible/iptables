@@ -8,7 +8,7 @@
 
 - name: iptables | persist | save file
   tags:
-    - config
+  - config
   file:
     path: "/etc/iptables/rules.{{ item }}"
     mode: 0640
